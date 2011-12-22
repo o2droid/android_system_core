@@ -9,6 +9,7 @@ copy_from := \
 
 ifeq ($(TARGET_PRODUCT),full)
 copy_from += etc/vold.fstab
+copy_from += etc/fstab
 endif
 
 # the /system/etc/init.goldfish.sh is needed to enable emulator support
@@ -35,6 +36,10 @@ ALL_PREBUILT += $(copy_to)
 ifneq ($(TARGET_PROVIDES_INIT_RC),true)
 file := $(TARGET_ROOT_OUT)/init.rc
 $(file) : $(LOCAL_PATH)/init.rc | $(ACP)
+	$(transform-prebuilt-to-target)
+ALL_PREBUILT += $(file)
+file := $(TARGET_ROOT_OUT)/loadmod
+$(file) : $(LOCAL_PATH)/loadmod | $(ACP)
 	$(transform-prebuilt-to-target)
 ALL_PREBUILT += $(file)
 endif
